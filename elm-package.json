@@ -10,7 +10,8 @@
         "Basics017",
         "Bitwise017",
         "Json.Decode017",
-        "Maybe017"
+        "Maybe017",
+        "Random017"
     ],
     "dependencies": {
         "elm-lang/core": "5.0.0 <= v < 6.0.0"
