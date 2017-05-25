@@ -30,7 +30,7 @@ Here are some things from Elm 0.17.
 
 -}
 
-import Json.Decode exposing (Decoder, succeed, fail, index)
+import Json.Decode exposing (Decoder, succeed, fail, index, field, int)
 
 
 {-| Helpful when a field tells you about the overall structure of the JSON
@@ -195,8 +195,29 @@ object8 =
 -}
 tuple1 : (a -> value) -> Decoder a -> Decoder value
 tuple1 func d0 =
-    object1 func
-        (index 0 d0)
+    -- We need to require that there is *exactly* 1 element in the array ...
+    requireLength 1 <|
+        object1 func
+            (index 0 d0)
+
+
+{-| If the JSON is an array of the specified length, applies the
+supplied decoder to it. Otherwise, fails.
+-}
+requireLength : Int -> Decoder value -> Decoder value
+requireLength required decoder =
+    field "length" int
+        |> Json.Decode.andThen
+            (\length ->
+                if length == required then
+                    decoder
+                else
+                    fail <|
+                        "Expected an array of length: "
+                            ++ toString required
+                            ++ ", but got an array of length: "
+                            ++ toString length
+            )
 
 
 {-| Handle an array with exactly two elements. Useful for points and simple
@@ -219,9 +240,10 @@ pairs.
 -}
 tuple2 : (a -> b -> value) -> Decoder a -> Decoder b -> Decoder value
 tuple2 func d0 d1 =
-    object2 func
-        (index 0 d0)
-        (index 1 d1)
+    requireLength 2 <|
+        object2 func
+            (index 0 d0)
+            (index 1 d1)
 
 
 {-| Handle an array with exactly three elements.
@@ -233,67 +255,73 @@ tuple2 func d0 d1 =
 -}
 tuple3 : (a -> b -> c -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder value
 tuple3 func d0 d1 d2 =
-    object3 func
-        (index 0 d0)
-        (index 1 d1)
-        (index 2 d2)
+    requireLength 3 <|
+        object3 func
+            (index 0 d0)
+            (index 1 d1)
+            (index 2 d2)
 
 
 {-| -}
 tuple4 : (a -> b -> c -> d -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder value
 tuple4 func d0 d1 d2 d3 =
-    object4 func
-        (index 0 d0)
-        (index 1 d1)
-        (index 2 d2)
-        (index 3 d3)
+    requireLength 4 <|
+        object4 func
+            (index 0 d0)
+            (index 1 d1)
+            (index 2 d2)
+            (index 3 d3)
 
 
 {-| -}
 tuple5 : (a -> b -> c -> d -> e -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder value
 tuple5 func d0 d1 d2 d3 d4 =
-    object5 func
-        (index 0 d0)
-        (index 1 d1)
-        (index 2 d2)
-        (index 3 d3)
-        (index 4 d4)
+    requireLength 5 <|
+        object5 func
+            (index 0 d0)
+            (index 1 d1)
+            (index 2 d2)
+            (index 3 d3)
+            (index 4 d4)
 
 
 {-| -}
 tuple6 : (a -> b -> c -> d -> e -> f -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder value
 tuple6 func d0 d1 d2 d3 d4 d5 =
-    object6 func
-        (index 0 d0)
-        (index 1 d1)
-        (index 2 d2)
-        (index 3 d3)
-        (index 4 d4)
-        (index 5 d5)
+    requireLength 6 <|
+        object6 func
+            (index 0 d0)
+            (index 1 d1)
+            (index 2 d2)
+            (index 3 d3)
+            (index 4 d4)
+            (index 5 d5)
 
 
 {-| -}
 tuple7 : (a -> b -> c -> d -> e -> f -> g -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g -> Decoder value
 tuple7 func d0 d1 d2 d3 d4 d5 d6 =
-    object7 func
-        (index 0 d0)
-        (index 1 d1)
-        (index 2 d2)
-        (index 3 d3)
-        (index 4 d4)
-        (index 5 d5)
-        (index 6 d6)
+    requireLength 7 <|
+        object7 func
+            (index 0 d0)
+            (index 1 d1)
+            (index 2 d2)
+            (index 3 d3)
+            (index 4 d4)
+            (index 5 d5)
+            (index 6 d6)
 
 
 {-| -}
 tuple8 : (a -> b -> c -> d -> e -> f -> g -> h -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder d -> Decoder e -> Decoder f -> Decoder g -> Decoder h -> Decoder value
 tuple8 func d0 d1 d2 d3 d4 d5 d6 d7 =
-    object8 func
-        (index 0 d0)
-        (index 1 d1)
-        (index 2 d2)
-        (index 3 d3)
-        (index 4 d4)
-        (index 5 d5)
-        (index 6 d6)
-        (index 7 d7)
+    requireLength 8 <|
+        object8 func
+            (index 0 d0)
+            (index 1 d1)
+            (index 2 d2)
+            (index 3 d3)
+            (index 4 d4)
+            (index 5 d5)
+            (index 6 d6)
+            (index 7 d7)
