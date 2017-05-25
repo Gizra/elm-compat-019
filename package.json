@@ -1,0 +1,26 @@
+{
+  "name": "elm-compat-018",
+  "version": "1.0.0",
+  "description": "Compatibility layer to be used with Elm 0.18",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "elm": "^0.18.0"
+  },
+  "scripts": {
+    "test": "elm-make test/Main.elm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gizra/elm-compat-018.git"
+  },
+  "author": "Ryan Rempel <ryan@gizra.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gizra/elm-compat-018/issues"
+  },
+  "homepage": "https://github.com/Gizra/elm-compat-018#readme"
+}
