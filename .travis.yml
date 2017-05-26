@@ -23,8 +23,5 @@ before_install:
 install:
   - npm install
 
-before_script:
-  - sysconfcpus -n 2 elm-make --yes test/Main.elm
-
 script:
-  - npm test
+  - sysconfcpus -n 2 npm test
