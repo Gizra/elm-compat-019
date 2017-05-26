@@ -12,7 +12,8 @@
         "Json.Decode017",
         "Maybe017",
         "Random017",
-        "Result017"
+        "Result017",
+        "Task017"
     ],
     "dependencies": {
         "elm-lang/core": "5.0.0 <= v < 6.0.0"
