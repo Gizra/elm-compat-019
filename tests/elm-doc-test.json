@@ -1,0 +1,7 @@
+{
+  "root": "../src",
+  "tests": [
+    "Basics019",
+    "Time019"
+  ]
+}

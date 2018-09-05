@@ -2,21 +2,26 @@
 
 # elm-compat-018
 
-This is a module for Elm 0.18 which allows you to use some of the things in Elm
-0.17's [`elm-lang/core`](http://package.elm-lang.org/packages/elm-lang/core/4.0.0)
-which were changed in Elm 0.18.
+This is a package for Elm 0.18 that allows you to reach into Elm's past and
+Elm's future.
 
-It should be said that the best way to experience all the goodness of Elm 0.18
-is to actually modify your projects to use Elm 0.18's version of these changes.
-And [elm-format](https://github.com/avh4/elm-format) has some nice features to
-help you do that easily.
+- You can use some of the old things from Elm 0.17's
+[`elm-lang/core`](http://package.elm-lang.org/packages/elm-lang/core/4.0.0)
+which were changed or dropped in Elm 0.18. Now, the best way to experience all
+the goodness of Elm 0.18 is to actually modify your code. However, there are
+cases in which you might want to keep using some "retro" features of Elm 0.17.
+Perhaps they are handy for your particular scenario, or perhaps you are
+maintaining some code that you need to compile in multiple versions of Elm.
 
-However, there are cases in which you might want to keep using some "retro"
-features of Elm 0.17. Perhaps they are handy for your particular scenario, or
-perhaps you are maintaining some code that you need to compile in multiple
-versions of Elm.
+- You can use some of the new things in Elm 0.19's
+[`elm/core`](https://package.elm-lang.org/packages/elm/core/1.0.0).  Now, the
+best way to experience all of the goodness of Elm 0.19 is to upgrade your code.
+However, there are cases in which you don't want to upgrade to the latest
+version of Elm, but would find it handy to use some of its features. For
+instance, you may have an app in production, or you may have code that you need
+to compile with multiple versions of Elm.
 
-So, this library may be of some assistance in those cases.
+So, this package may be of some assistance in those scenarios.
 
 ## API
 
