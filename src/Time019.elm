@@ -56,6 +56,7 @@ and renamed it `Time`. So, this is an implementation for Elm 0.18.
 
 import Basics019 exposing (modBy)
 import Date exposing (Day(..), Month(..))
+import Date.Extra exposing (offsetFromUtc)
 import Task exposing (Task)
 import Time
 
@@ -173,8 +174,7 @@ cannot do it myself unfortunately.
 -}
 here : Task x Zone
 here =
-    Task.succeed "todo"
-        |> Task.andThen Debug.crash
+    Task.map (offsetFromUtc >> flip customZone []) Date.now
 
 
 
@@ -574,8 +574,7 @@ IANA data you loaded yourself.
 -}
 getZoneName : Task x ZoneName
 getZoneName =
-    Task.succeed "todo"
-        |> Task.andThen Debug.crash
+    Task.map (offsetFromUtc >> Offset) Date.now
 
 
 {-| **Intended for package authors.**
