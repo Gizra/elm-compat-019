@@ -11,6 +11,7 @@
         "Basics019",
         "Bitwise017",
         "Char019",
+        "Debug019",
         "Json.Decode017",
         "Maybe017",
         "Random017",

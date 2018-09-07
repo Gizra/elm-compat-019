@@ -3,6 +3,7 @@
   "tests": [
     "Basics019",
     "Char019",
+    "Debug019",
     "Time019"
   ]
 }
