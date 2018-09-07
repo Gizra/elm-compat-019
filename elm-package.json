@@ -21,7 +21,8 @@
         "Result017",
         "String019",
         "Task017",
-        "Time019"
+        "Time019",
+        "Tuple019"
     ],
     "dependencies": {
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
