@@ -2,6 +2,7 @@
   "root": "../src",
   "tests": [
     "Basics019",
+    "Char019",
     "Time019"
   ]
 }
