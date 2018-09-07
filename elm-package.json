@@ -8,12 +8,16 @@
     ],
     "exposed-modules": [
         "Basics017",
+        "Basics019",
         "Bitwise017",
+        "Char019",
         "Json.Decode017",
         "Maybe017",
         "Random017",
+        "Random19",
         "Result017",
-        "Task017"
+        "Task017",
+        "Time019"
     ],
     "dependencies": {
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
