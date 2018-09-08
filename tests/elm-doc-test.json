@@ -4,6 +4,7 @@
     "Basics019",
     "Char019",
     "Debug019",
+    "Json.Encode019",
     "String019",
     "Time019",
     "Tuple019"

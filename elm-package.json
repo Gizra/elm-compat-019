@@ -13,6 +13,7 @@
         "Char019",
         "Debug019",
         "Json.Decode017",
+        "Json.Encode019",
         "Maybe017",
         "Platform019",
         "Random017",
