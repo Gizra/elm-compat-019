@@ -4,6 +4,7 @@ module Random017 exposing (andThen)
 0.18.
 
 @docs andThen
+
 -}
 
 import Random exposing (Generator)
@@ -13,15 +14,25 @@ import Random exposing (Generator)
 example, we will generate a random letter by putting together uppercase and
 lowercase letters.
 
+
     letter : Generator Char
     letter =
-      bool `andThen` \b ->
-        if b then uppercaseLetter else lowercaseLetter
+        bool
+            `andThen`
+                (\b ->
+                    if b then
+                        uppercaseLetter
+
+                    else
+                        lowercaseLetter
+                )
+
 
     -- bool : Generator Bool
     -- uppercaseLetter : Generator Char
     -- lowercaseLetter : Generator Char
+
 -}
 andThen : Generator a -> (a -> Generator b) -> Generator b
 andThen =
-    flip Random.andThen
+    \b a -> Random.andThen a b

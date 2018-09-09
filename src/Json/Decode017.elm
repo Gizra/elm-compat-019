@@ -1,36 +1,20 @@
-module Json.Decode017
-    exposing
-        ( andThen
-        , (:=)
-        , customDecoder
-        , object1
-        , object2
-        , object3
-        , object4
-        , object5
-        , object6
-        , object7
-        , object8
-        , tuple1
-        , tuple2
-        , tuple3
-        , tuple4
-        , tuple5
-        , tuple6
-        , tuple7
-        , tuple8
-        )
+module Json.Decode017 exposing
+    ( andThen, customDecoder
+    , object1, object2, object3, object4, object5, object6, object7, object8
+    , tuple1, tuple2, tuple3, tuple4, tuple5, tuple6, tuple7, tuple8
+    )
 
 {-| There were quite a few changes between Elm 0.17 and 0.18 in Json.Decode.
 Here are some things from Elm 0.17.
 
-@docs andThen, (:=), customDecoder
+@docs andThen, customDecoder
 @docs object1, object2, object3, object4, object5, object6, object7, object8
 @docs tuple1, tuple2, tuple3, tuple4, tuple5, tuple6, tuple7, tuple8
 
 -}
 
-import Json.Decode exposing (Decoder, succeed, fail, index, field, int)
+import Json.Decode exposing (Decoder, fail, field, index, int, succeed)
+import String exposing (fromInt)
 
 
 {-| Helpful when a field tells you about the overall structure of the JSON
@@ -49,16 +33,16 @@ expect **and then** it extracts the relevant information.
 
     shape : Decoder Shape
     shape =
-        ("tag" := string) `andThen` shapeInfo
+        field "tag" string `andThen` shapeInfo
 
     shapeInfo : String -> Decoder Shape
     shapeInfo tag =
         case tag of
             "rectangle" ->
-                object2 Rectangle ("width" := float) ("height" := float)
+                object2 Rectangle (field "width" float) (field "height" float)
 
             "circle" ->
-                object1 Circle ("radius" := float)
+                object1 Circle (field "radius" float)
 
             _ ->
                 fail (tag ++ " is not a recognized tag for shapes")
@@ -66,26 +50,7 @@ expect **and then** it extracts the relevant information.
 -}
 andThen : Decoder a -> (a -> Decoder b) -> Decoder b
 andThen =
-    flip Json.Decode.andThen
-
-
-{-| Applies the decoder to the field with the given name.
-Fails if the JSON object has no such field.
-
-    nameAndAge : Decoder ( String, Int )
-    nameAndAge =
-        object2 (,)
-            ("name" := string)
-            ("age" := int)
-
-    optionalProfession : Decoder (Maybe String)
-    optionalProfession =
-        maybe ("profession" := string)
-
--}
-(:=) : String -> Decoder a -> Decoder a
-(:=) =
-    Json.Decode.field
+    \b a -> Json.Decode.andThen a b
 
 
 {-| Create a custom decoder that may do some fancy computation.
@@ -107,7 +72,7 @@ customDecoder decoder toResult =
 {-| Apply a function to a decoder. You can use this function as `map` if you
 must (which can be done with any `objectN` function actually).
 
-    object1 sqrt ("x" := float)
+    object1 sqrt (field "x" float)
 
 -}
 object1 : (a -> value) -> Decoder a -> Decoder value
@@ -120,9 +85,9 @@ multiple fields from an object.
 
     point : Decoder ( Float, Float )
     point =
-        object2 (,)
-            ("x" := float)
-            ("y" := float)
+        object2 (\a b -> ( a, b ))
+            (field "x" float)
+            (field "y" float)
 
 -}
 object2 : (a -> b -> value) -> Decoder a -> Decoder b -> Decoder value
@@ -139,9 +104,9 @@ multiple fields from an object.
     job : Decoder Job
     job =
         object3 Job
-            ("name" := string)
-            ("id" := int)
-            ("completed" := bool)
+            (field "name" string)
+            (field "id" int)
+            (field "completed" bool)
 
 -}
 object3 : (a -> b -> c -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder value
@@ -211,12 +176,13 @@ requireLength required decoder =
             (\length ->
                 if length == required then
                     decoder
+
                 else
                     fail <|
                         "Expected an array of length: "
-                            ++ toString required
+                            ++ fromInt required
                             ++ ", but got an array of length: "
-                            ++ toString length
+                            ++ fromInt length
             )
 
 
@@ -225,11 +191,10 @@ pairs.
 
     point : Decoder ( Float, Float )
     point =
-        tuple2 (,) float float
+        tuple2 (\a b -> ( a, b )) float float
 
 
     -- ["John","Doe"] or ["Hermann","Hesse"]
-
     name : Decoder Name
     name =
         tuple2 Name string string
@@ -250,7 +215,7 @@ tuple2 func d0 d1 =
 
     point3D : Decoder ( Float, Float, Float )
     point3D =
-        tuple3 (,,) float float float
+        tuple3 (\a b c -> ( a, b, c )) float float float
 
 -}
 tuple3 : (a -> b -> c -> value) -> Decoder a -> Decoder b -> Decoder c -> Decoder value

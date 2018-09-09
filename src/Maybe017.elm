@@ -27,6 +27,7 @@ first month from a `List` and then make sure it is between 1 and 12:
     toValidMonth month =
         if month >= 1 && month <= 12 then
             Just month
+
         else
             Nothing
 
@@ -42,14 +43,16 @@ will result in `Nothing`.
 -}
 andThen : Maybe a -> (a -> Maybe b) -> Maybe b
 andThen =
-    flip Maybe.andThen
+    \b a -> Maybe.andThen a b
 
 
 {-| Pick the first `Maybe` that actually has a value. Useful when you want to
 try a couple different things, but there is no default value.
 
     oneOf [ Nothing, Just 42, Just 71 ] == Just 42
+
     oneOf [ Nothing, Nothing, Just 71 ] == Just 71
+
     oneOf [ Nothing, Nothing, Nothing ] == Nothing
 
 -}

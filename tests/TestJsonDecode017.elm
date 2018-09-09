@@ -1,11 +1,11 @@
-module TestJsonDecode017 exposing (..)
+module TestJsonDecode017 exposing (assertEqual, customTests, suite, tupleTests)
 
 {-| Tests adapted from Elm 0.17, to see whether we can pass.
 -}
 
-import Json.Decode exposing (string, decodeString, int)
-import Json.Decode017 as Json17 exposing ((:=), tuple1, tuple2, tuple3, tuple4)
 import Expect
+import Json.Decode exposing (Error(..), decodeString, field, int, string)
+import Json.Decode017 as Json17 exposing (tuple1, tuple2, tuple3, tuple4)
 import Test exposing (..)
 
 
@@ -27,23 +27,29 @@ customTests =
             "I want to see this message!"
 
         myDecoder =
-            Json17.customDecoder ("foo" := string) (\_ -> Err customErrorMessage)
+            Json17.customDecoder (field "foo" string) (\_ -> Err customErrorMessage)
     in
-        test "customDecoder preserves user error messages" <|
-            \_ ->
-                case decodeString myDecoder jsonString of
-                    Ok _ ->
-                        Expect.fail "expected `customDecoder` to produce a value of type Err, but got Ok"
+    test "customDecoder preserves user error messages" <|
+        \_ ->
+            case decodeString myDecoder jsonString of
+                Ok _ ->
+                    Expect.fail "expected `customDecoder` to produce a value of type Err, but got Ok"
 
-                    Err message ->
-                        if String.contains customErrorMessage message then
-                            Expect.pass
-                        else
-                            Expect.fail <|
-                                "expected `customDecoder` to preserve user's error message '"
-                                    ++ customErrorMessage
-                                    ++ "', but instead got: "
-                                    ++ message
+                Err err ->
+                    case err of
+                        Failure message _ ->
+                            if String.contains customErrorMessage message then
+                                Expect.pass
+
+                            else
+                                Expect.fail <|
+                                    "expected `customDecoder` to preserve user's error message '"
+                                        ++ customErrorMessage
+                                        ++ "', but instead got: "
+                                        ++ message
+
+                        _ ->
+                            Expect.fail "Expected a failure"
 
 
 tupleTests : Test
@@ -53,13 +59,13 @@ tupleTests =
             tuple1 identity int
 
         decoder2 =
-            tuple2 (,) int int
+            tuple2 Tuple.pair int int
 
         decoder3 =
-            tuple3 (,,) int int int
+            tuple3 (\a b c -> ( a, b, c )) int int int
 
         decoder4 =
-            tuple4 (,,,) int int int int
+            tuple4 (\a b c d -> ( a, ( b, ( c, d ) ) )) int int int int
 
         input1 =
             """[ 1 ]"""
@@ -83,71 +89,71 @@ tupleTests =
             ( 1, 2, 3 )
 
         output4 =
-            ( 1, 2, 3, 4 )
+            ( 1, ( 2, ( 3, 4 ) ) )
     in
-        suite "tuples"
-            [ test "tuple1 input1" <|
-                \_ ->
-                    decodeString decoder1 input1
-                        |> Expect.equal (Ok output1)
-            , test "tuple1 input2" <|
-                \_ ->
-                    decodeString decoder1 input2
-                        |> Expect.err
-            , test "tuple1 input3" <|
-                \_ ->
-                    decodeString decoder1 input3
-                        |> Expect.err
-            , test "tuple1 input4" <|
-                \_ ->
-                    decodeString decoder1 input4
-                        |> Expect.err
-            , test "tuple2 input1" <|
-                \_ ->
-                    decodeString decoder2 input1
-                        |> Expect.err
-            , test "tuple2 input2" <|
-                \_ ->
-                    decodeString decoder2 input2
-                        |> Expect.equal (Ok output2)
-            , test "tuple2 input3" <|
-                \_ ->
-                    decodeString decoder2 input3
-                        |> Expect.err
-            , test "tuple2 input4" <|
-                \_ ->
-                    decodeString decoder2 input4
-                        |> Expect.err
-            , test "tuple3 input1" <|
-                \_ ->
-                    decodeString decoder3 input1
-                        |> Expect.err
-            , test "tuple3 input2" <|
-                \_ ->
-                    decodeString decoder3 input2
-                        |> Expect.err
-            , test "tuple3 input3" <|
-                \_ ->
-                    decodeString decoder3 input3
-                        |> Expect.equal (Ok output3)
-            , test "tuple3 input4" <|
-                \_ ->
-                    decodeString decoder3 input4
-                        |> Expect.err
-            , test "tuple4 input1" <|
-                \_ ->
-                    decodeString decoder4 input1
-                        |> Expect.err
-            , test "tuple4 input2" <|
-                \_ ->
-                    decodeString decoder4 input2
-                        |> Expect.err
-            , test "tuple4 input3" <|
-                \_ ->
-                    decodeString decoder4 input3
-                        |> Expect.err
-            , test "tuple4 input4" <|
-                \_ ->
-                    decodeString decoder4 input4
-                        |> Expect.equal (Ok output4)
-            ]
+    suite "tuples"
+        [ test "tuple1 input1" <|
+            \_ ->
+                decodeString decoder1 input1
+                    |> Expect.equal (Ok output1)
+        , test "tuple1 input2" <|
+            \_ ->
+                decodeString decoder1 input2
+                    |> Expect.err
+        , test "tuple1 input3" <|
+            \_ ->
+                decodeString decoder1 input3
+                    |> Expect.err
+        , test "tuple1 input4" <|
+            \_ ->
+                decodeString decoder1 input4
+                    |> Expect.err
+        , test "tuple2 input1" <|
+            \_ ->
+                decodeString decoder2 input1
+                    |> Expect.err
+        , test "tuple2 input2" <|
+            \_ ->
+                decodeString decoder2 input2
+                    |> Expect.equal (Ok output2)
+        , test "tuple2 input3" <|
+            \_ ->
+                decodeString decoder2 input3
+                    |> Expect.err
+        , test "tuple2 input4" <|
+            \_ ->
+                decodeString decoder2 input4
+                    |> Expect.err
+        , test "tuple3 input1" <|
+            \_ ->
+                decodeString decoder3 input1
+                    |> Expect.err
+        , test "tuple3 input2" <|
+            \_ ->
+                decodeString decoder3 input2
+                    |> Expect.err
+        , test "tuple3 input3" <|
+            \_ ->
+                decodeString decoder3 input3
+                    |> Expect.equal (Ok output3)
+        , test "tuple3 input4" <|
+            \_ ->
+                decodeString decoder3 input4
+                    |> Expect.err
+        , test "tuple4 input1" <|
+            \_ ->
+                decodeString decoder4 input1
+                    |> Expect.err
+        , test "tuple4 input2" <|
+            \_ ->
+                decodeString decoder4 input2
+                    |> Expect.err
+        , test "tuple4 input3" <|
+            \_ ->
+                decodeString decoder4 input3
+                    |> Expect.err
+        , test "tuple4 input4" <|
+            \_ ->
+                decodeString decoder4 input4
+                    |> Expect.equal (Ok output4)
+        ]

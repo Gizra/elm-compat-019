@@ -1,25 +1,17 @@
-[![Build Status](https://travis-ci.org/Gizra/elm-compat-018.svg?branch=master)](https://travis-ci.org/Gizra/elm-compat-018)
+[![Build Status](https://travis-ci.org/Gizra/elm-compat-019.svg?branch=master)](https://travis-ci.org/Gizra/elm-compat-019)
 
-# elm-compat-018
+# elm-compat-019
 
-This is a package for Elm 0.18 that allows you to reach into Elm's past and
-Elm's future.
+This is a package for Elm 0.19 that allows you to reach into Elm's past.
 
-- You can use some of the old things from Elm 0.17's
+You can use some of the old things from Elm 0.17's
 [`elm-lang/core`](http://package.elm-lang.org/packages/elm-lang/core/4.0.0)
-which were changed or dropped in Elm 0.18. Now, the best way to experience all
-the goodness of Elm 0.18 is to actually modify your code. However, there are
-cases in which you might want to keep using some "retro" features of Elm 0.17.
-Perhaps they are handy for your particular scenario, or perhaps you are
-maintaining some code that you need to compile in multiple versions of Elm.
-
-- You can use some of the new things in Elm 0.19's
-[`elm/core`](https://package.elm-lang.org/packages/elm/core/1.0.0).  Now, the
-best way to experience all of the goodness of Elm 0.19 is to upgrade your code.
-However, there are cases in which you don't want to upgrade to the latest
-version of Elm, but would find it handy to use some of its features. For
-instance, you may have an app in production, or you may have code that you need
-to compile with multiple versions of Elm.
+or Elm 0.18's [`elm-lang/core`](http://package.elm-lang.org/packages/elm-lang/core/5.1.1)
+which were changed or dropped in Elm 0.19. Now, the best way to experience all
+the goodness of Elm 0.19 is to actually modify your code. However, there are
+cases in which you might want to keep using some "retro" features of Elm 0.17
+or 0.18.  Perhaps they are handy for your particular scenario, or perhaps you
+are maintaining some code that you need to compile in multiple versions of Elm.
 
 So, this package may be of some assistance in those scenarios.
 
@@ -29,14 +21,14 @@ For the detailed API, see the
 [Elm package site](http://package.elm-lang.org/packages/Gizra/elm-compat-018/latest),
 or the links to the right, if you're already there.
 
-As you will see, the modules from `elm-lang/core` with changes that can be
-ported to Elm 0.18 are included here with the Elm version as a suffix. So,
-suppose you want to use the old `customDecoder` from the Elm 0.17 version of
-`Json.Decode`, you can do something like this:
+As you will see, the modules from old versions of `elm-lang/core` with changes
+that can be ported to Elm 0.19 are included here with the Elm version as a
+suffix. So, suppose you want to use the old `customDecoder` from the Elm 0.17
+version of `Json.Decode`, you can do something like this:
 
     import Json.Decode017 exposing (customDecoder)
 
-If you're maintaining some code for both Elm 0.17 and 0.18, then the necessary
+If you're maintaining some code for both Elm 0.17 and 0.19, then the necessary
 change is then limited to the `import` statement -- in the Elm 0.17 version,
 you'd just change the import to:
 
@@ -49,10 +41,10 @@ One thing which doesn't quite work (but might be nice) is:
 
 The problem is that each has an `andThen`, so `Json.andThen` becomes ambiguous.
 
-However, if you're maintaining code for both Elm 0.17 and 0.18, you could do
+However, if you're maintaining code for both Elm 0.17 and 0.19, you could do
 something like the following.
 
-    -- In the Elm 0.18 file, use the following imports:
+    -- In the Elm 0.19 file, use the following imports:
     import Json.Decode as Json
     import Json.Decode017 as Json17
 
@@ -64,21 +56,21 @@ Then, in the body of the either file, when you need something that is specific
 to Elm 0.17, you can say something like `Json17.andThen`. In both cases, you'll
 get the function you want.
 
-If you also want to use some things that are specific to Elm 0.18, you can
+If you also want to use some things that are specific to Elm 0.19, you can
 install [`Gizra/elm-compat-017`](http://package.elm-lang.org/packages/Gizra/elm-compat-017/latest)
 in the Elm 0.17 project, and then do something like this:
 
-    -- In the Elm 0.18 file, use the following imports:
+    -- In the Elm 0.19 file, use the following imports:
     import Json.Decode as Json
-    import Json.Decode as Json18
+    import Json.Decode as Json19
     import Json.Decode017 as Json17
 
     -- In the Elm 0.17 file, use the following imports:
     import Json.Decode as Json
     import Json.Decode as Json17
-    import Json.Decode018 as Json18
+    import Json.Decode019 as Json19
 
-If you do that, then you can say `Json17.andThen` or `Json18.andThen` in either
+If you do that, then you can say `Json19.andThen` or `Json17.andThen` in either
 file, and in both cases you'll get the function you expect.
 
 Just to reiterate, none of this is standard operating procedure -- normally,
@@ -88,13 +80,13 @@ multiple versions of Elm at the same time.
 
 ## Installation
 
-Try `elm-package install Gizra/elm-compat-018`
+Try `elm-package install Gizra/elm-compat-019`
 
 ## Development
 
 Try something like:
 
-    git clone https://github.com/Gizra/elm-compat-018
+    git clone https://github.com/Gizra/elm-compat-019
     cd elm-compat-018
     npm install
     npm test

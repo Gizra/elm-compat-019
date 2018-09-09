@@ -1,10 +1,10 @@
-module TestResult017 exposing (..)
+module TestResult017 exposing (assertEqual, basics, isEven, suite)
 
 {-| Tests adapted from Elm 0.17, to see whether we can pass.
 -}
 
-import Result017 exposing (andThen)
 import Expect
+import Result017 exposing (andThen)
 import Test exposing (..)
 
 
@@ -17,10 +17,21 @@ assertEqual expected tried =
 
 
 isEven n =
-    if n % 2 == 0 then
+    if remainderBy 2 n == 0 then
         Ok n
+
     else
         Err "number is odd"
+
+
+toInt : String -> Result String Int
+toInt s =
+    case String.toInt s of
+        Just r ->
+            Ok r
+
+        Nothing ->
+            Err "not an int"
 
 
 basics : Test
@@ -30,14 +41,14 @@ basics =
             [ test "andThen Ok" <|
                 assertEqual
                     (Ok 42)
-                    (andThen (String.toInt "42") isEven)
+                    (andThen (toInt "42") isEven)
             , test "andThen first Err" <|
                 assertEqual
-                    (Err "could not convert string '4.2' to an Int")
-                    (andThen (String.toInt "4.2") isEven)
+                    (Err "not an int")
+                    (andThen (toInt "4.2") isEven)
             , test "andThen second Err" <|
                 assertEqual
                     (Err "number is odd")
-                    (andThen (String.toInt "41") isEven)
+                    (andThen (toInt "41") isEven)
             ]
         ]

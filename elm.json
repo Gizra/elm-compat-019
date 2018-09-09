@@ -1,0 +1,25 @@
+{
+    "type": "package",
+    "name": "Gizra/elm-compat-019",
+    "summary": "Compatibility layer for use with Elm 0.19",
+    "license": "MIT",
+    "version": "1.0.0",
+    "exposed-modules": [
+        "Basics017",
+        "Bitwise017",
+        "Json.Decode017",
+        "Maybe017",
+        "Random017",
+        "Result017",
+        "Task017"
+    ],
+    "elm-version": "0.19.0 <= v < 0.20.0",
+    "dependencies": {
+        "elm/core": "1.0.0 <= v < 2.0.0",
+        "elm/json": "1.0.0 <= v < 2.0.0",
+        "elm/random": "1.0.0 <= v < 2.0.0"
+    },
+    "test-dependencies": {
+        "elm-explorations/test": "1.1.0 <= v < 2.0.0"
+    }
+}
