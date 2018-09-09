@@ -4,3 +4,5 @@ elm-stuff
 index.js
 index.html
 node_modules
+tests/Doc
+elm.js
