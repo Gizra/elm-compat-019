@@ -1,6 +1,9 @@
 module Platform019 exposing (worker)
 
 {-| In Elm 0.19, `programWithFlags` was renamed `worker`.
+
+@docs worker
+
 -}
 
 import Platform exposing (Program, programWithFlags)
