@@ -10,6 +10,7 @@
         "Bitwise017",
         "Json.Decode017",
         "Maybe017",
+        "Platform018",
         "Random017",
         "Result017",
         "Task017"
