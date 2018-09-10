@@ -3,7 +3,7 @@ module Basics018 exposing (rem, flip, curry, uncurry)
 {-| Elm 0.19 made sevral changes:
 
   - renamed `rem` to `remainderBy`
-  - removed 'flip`,`curry`,`uncurry\`
+  - removed `flip`,`curry`, and `uncurry`
 
 The `toString` function was moved to the `Debug` module. It is not possible to
 re-implement it here.
