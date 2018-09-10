@@ -1,6 +1,7 @@
 {
   "root": "../src",
   "tests": [
-      "Basics018"
+      "Basics018",
+      "String018"
   ]
 }
