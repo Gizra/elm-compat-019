@@ -6,6 +6,7 @@
     "version": "1.0.0",
     "exposed-modules": [
         "Basics017",
+        "Basics018",
         "Bitwise017",
         "Json.Decode017",
         "Maybe017",
