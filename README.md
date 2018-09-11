@@ -56,22 +56,27 @@ Then, in the body of the either file, when you need something that is specific
 to Elm 0.17, you can say something like `Json17.andThen`. In both cases, you'll
 get the function you want.
 
-If you also want to use some things that are specific to Elm 0.19, you can
+If you also want to use some things that are specific to Elm 0.18 or Elm 0.19, you can
 install [`Gizra/elm-compat-017`](http://package.elm-lang.org/packages/Gizra/elm-compat-017/latest)
 in the Elm 0.17 project, and then do something like this:
 
     -- In the Elm 0.19 file, use the following imports:
     import Json.Decode as Json
-    import Json.Decode as Json19
+    import Json.Decode as Json18
     import Json.Decode017 as Json17
 
     -- In the Elm 0.17 file, use the following imports:
     import Json.Decode as Json
     import Json.Decode as Json17
-    import Json.Decode019 as Json19
+    import Json.Decode018 as Json18
 
-If you do that, then you can say `Json19.andThen` or `Json17.andThen` in either
+If you do that, then you can say `Json18.andThen` or `Json17.andThen` in either
 file, and in both cases you'll get the function you expect.
+
+The basic idea is that if you install the appropriate version of
+`Gizra/elm-compat-...` for your environment, you should be able to maniuplate
+your import statements to access any of the function signatures that have been
+back-ported or forward-ported.
 
 Just to reiterate, none of this is standard operating procedure -- normally,
 you will be best served by just updating everything to the latest version of
@@ -87,6 +92,6 @@ Try `elm-package install Gizra/elm-compat-019`
 Try something like:
 
     git clone https://github.com/Gizra/elm-compat-019
-    cd elm-compat-018
+    cd elm-compat-019
     npm install
     npm test
