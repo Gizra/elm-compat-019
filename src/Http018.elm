@@ -2,6 +2,9 @@ module Http018 exposing (decodeUri, encodeUri)
 
 {-| Elm 0.19 moved `encodeUri` and `decodeUri` to the `elm/url` package,
 and renamed them `percentEncode` and `percentDecode`.
+
+@docs encodeUri, decodeUri
+
 -}
 
 import Url exposing (percentDecode, percentEncode)
