@@ -9,7 +9,7 @@ module Http017 exposing
 {-| Elm 0.18 made significant changes to the `Http` API. This module
 re-implements the entire Elm 0.17 API.
 
-Note that we could not avoid addied an extra parameter to the `string`
+Note that we could not avoid adding an extra parameter to the `string`
 function. We also could not avoid adding a new constructor to `RawError`
 and `Error`.
 
