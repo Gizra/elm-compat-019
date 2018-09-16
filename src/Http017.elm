@@ -241,18 +241,17 @@ stringData =
     before giving up. By default it is 0 which means &ldquo;never give
     up!&rdquo;
 
-  - `onStart` and `onProgress` allow you to monitor progress. This is useful
-    if you want to show a progress bar when uploading a large amount of data.
-
-  - `desiredResponseType` lets you override the MIME type of the response, so
-    you can influence what kind of `Value` you get in the `Response`.
+> It is not feasible to re-implement the `onStart` or `onProgress` fields
+> with the same signatures as in Elm 0.17. For this reason, those fields
+> have been omitted ... to track progress, you will need to use the Elm 0.19
+> APIs.
+>
+> It is also not possible in Elm 0.19 to re-implement what Elm 0.17 did with
+> the `desiredResponseType` field. Therefore, it has also been omitted.
 
 -}
 type alias Settings =
     { timeout : Time
-    , onStart : Maybe (Task () ())
-    , onProgress : Maybe (Maybe { loaded : Int, total : Int } -> Task () ())
-    , desiredResponseType : Maybe String
     , withCredentials : Bool
     }
 
@@ -270,9 +269,6 @@ type alias Settings =
 defaultSettings : Settings
 defaultSettings =
     { timeout = 0
-    , onStart = Nothing
-    , onProgress = Nothing
-    , desiredResponseType = Nothing
     , withCredentials = False
     }
 
@@ -367,12 +363,6 @@ defines all the information that will actually be sent along to a server.
 -}
 send : Settings -> Request -> Task RawError Response
 send settings req =
-    -- TODO
-    --
-    -- Ignoring `onStart` and `onProgress` in the settings for now
-    --
-    -- Not sure what to do with `desiredResponseType` in settings ... need
-    -- to figure out Elm 0.19 equivalent.
     let
         timeout =
             if settings.timeout <= 0 then
