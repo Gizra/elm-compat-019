@@ -3,7 +3,7 @@
     "name": "Gizra/elm-compat-019",
     "summary": "Compatibility layer for use with Elm 0.19",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "exposed-modules": [
         "Basics017",
         "Basics018",
